@@ -2,25 +2,40 @@ name: Build
 
 on:
     workflow_dispatch:
+        inputs:
+            createRelease:
+                description: 'create Release NuGet packages'
+                default: false
+                type: boolean
     
 jobs:
     build:
       name: Build
       env:
-        NUPKG_MAJOR: 3.1
+        NUPKG_MAJOR: 3.1.1
       runs-on: windows-latest
       steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
+      - name: Remove sample projects
+        run: |
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Android\Sample.Android.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.iOS\Sample.iOS.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Uwp\Sample.Uwp.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms\Sample.Forms.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.Android\Sample.Forms.Android.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.iOS\Sample.Forms.iOS.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.UWP\Sample.Forms.UWP.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.Tizen\Sample.Forms.Tizen.csproj
       - name: Build
         run: msbuild /r /t:Build /p:Configuration=Release .\ZXing.Net.Mobile.sln
       - name: Package NuGets
         run: |
           $pkgVer = ($env:NUPKG_MAJOR + "-alpha" + $env:GITHUB_RUN_ID)
-          if ($env:GITHUB_EVENT_NAME -eq "release") {
-            $pkgVer = $env:GITHUB_REF.Substring($env:GITHUB_REF.LastIndexOf('/') + 1)
+          if (${{ inputs.createRelease }}) {
+            $pkgVer = $env:NUPKG_MAJOR
           }
           New-Item -ItemType Directory -Force -Path .\artifacts
           msbuild /t:Pack /p:Configuration=Release /p:PackageOutputPath=..\artifacts /p:PackageVersion=$pkgVer /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg .\ZXing.Net.Mobile\ZXing.Net.Mobile.csproj
