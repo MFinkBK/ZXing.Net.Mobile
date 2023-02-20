@@ -16,7 +16,7 @@ jobs:
       runs-on: windows-latest
       steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
       - name: Remove sample projects
@@ -34,7 +34,7 @@ jobs:
       - name: Package NuGets
         run: |
           $pkgVer = ($env:NUPKG_MAJOR + "-alpha" + $env:GITHUB_RUN_ID)
-          if (${{ inputs.createRelease }}) {
+          if ("${{ github.event.inputs.createRelease }}" -eq "true") {
             $pkgVer = $env:NUPKG_MAJOR
           }
           New-Item -ItemType Directory -Force -Path .\artifacts
