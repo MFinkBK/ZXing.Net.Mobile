@@ -1,5 +1,18 @@
 # ZXing.Net.Mobile
 
+---
+
+Note: This is a fork of the `ZXing.Net.Mobile` that is used by the company
+Bittner + Krull Softwaresysteme GmbH. It was created since the original
+project isn't maintained anymore and/or doesn't accept PRs. No support is
+provided for this fork.
+
+The NuGet package produced by this project has the prefix `Bk.` and is
+released in this GitHub project for anyone to be used. The remaining of this
+Readme is not modified to reflect these changes.
+
+---
+
 [![Join the chat at https://gitter.im/Redth/ZXing.Net.Mobile](https://badges.gitter.im/Redth/ZXing.Net.Mobile.svg)](https://gitter.im/Redth/ZXing.Net.Mobile?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![ZXing.Net.Mobile Logo](https://raw.github.com/Redth/ZXing.Net.Mobile/master/zxing.net.mobile_128x128.png)
