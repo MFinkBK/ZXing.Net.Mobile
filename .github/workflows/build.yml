@@ -14,6 +14,16 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3.1
+      - name: Remove sample projects
+        run: |
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Android\Sample.Android.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.iOS\Sample.iOS.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Uwp\Sample.Uwp.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms\Sample.Forms.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.Android\Sample.Forms.Android.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.iOS\Sample.Forms.iOS.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.UWP\Sample.Forms.UWP.csproj
+          dotnet sln .\ZXing.Net.Mobile.sln remove Samples\Sample.Forms\Sample.Forms.Tizen\Sample.Forms.Tizen.csproj
       - name: Build
         run: msbuild /r /t:Build /p:Configuration=Release .\ZXing.Net.Mobile.sln
       - name: Package NuGets
