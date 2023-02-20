@@ -1,10 +1,10 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid10.0;tizen40</TargetFrameworks>
-		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid13.0</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.18362;</TargetFrameworks>
 		<AssemblyName>ZXingNetMobile</AssemblyName>
 		<RootNamespace>ZXing.Net.Mobile</RootNamespace>
-		<PackageId>ZXing.Net.Mobile</PackageId>
+		<PackageId>Bk.ZXing.Net.Mobile</PackageId>
 		<PackageIcon>icon.png</PackageIcon>
 		<Summary>ZXing Barcode Scanning for your Xamarin.iOS, Xamarin.Android and Windows Universal apps!</Summary>
 		<PackageTags></PackageTags>
@@ -33,9 +33,13 @@
 		<DebugType>portable</DebugType>
 		<Configurations>Debug;Release</Configurations>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<NoWarn>$(NoWarn);0414;0618;0809</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
 		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+	<PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+		<DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
 		<!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
@@ -58,7 +62,7 @@
 		<Compile Include="**\*.netstandard.*.cs" />
 	</ItemGroup>
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-		<PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.11" />
+		<PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.14" />
 		<Compile Include="**\*.uwp.cs" />
 		<Compile Include="**\*.uwp.*.cs" />
 		<Compile Include="ScanPage.xaml.cs">
@@ -78,7 +82,7 @@
 		<None Update="ZXingScannerControl.xaml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<SDKReference Include="WindowsMobile, Version=10.0.16299.0">
+		<SDKReference Include="WindowsMobile, Version=10.0.18362.0">
 			<Name>Windows Mobile Extensions for the UWP</Name>
 		</SDKReference>
 	</ItemGroup>
@@ -87,7 +91,7 @@
 		<Compile Include="**\*.android.*.cs" />
 		<AndroidResource Include="Resources\layout\*.axml" />
 		<PackageReference Include="FastAndroidCamera" Version="2.0.0" />
-		<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.6" />
+		<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.3.1.1" />
 	</ItemGroup>
 	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
 		<Compile Include="**\*.ios.cs" />
@@ -105,7 +109,7 @@
 		<Compile Include="**\*.tizen.*.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
-		<PackageReference Include="ZXing.Net" Version="0.16.6" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
+		<PackageReference Include="ZXing.Net" Version="0.16.8" />
 	</ItemGroup>
 </Project>
